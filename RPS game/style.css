@@ -1,0 +1,56 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    overflow-x: hidden;
+}
+.container{
+    display: block;
+    position: relative;
+}
+.resultGame{
+    border: 1px solid gold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+}
+button{
+    padding: 80px;
+    width: 200px;
+}
+img{
+    width: auto;
+    height: 100px;
+}
+figcaption{
+    transform: translateY(5px);
+}
+#loading{
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 8;
+    visibility: hidden;
+    position: absolute;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    align-self: center;
+}
+.loaded{
+    width: 60px;
+    height: 60px;
+    border:  10px solid #dde6f0;
+    border-top: 10px solid aqua;
+    border-radius: 100%;
+    margin: auto;
+    animation: rotate 2s linear infinite;
+}
+@keyframes rotate {
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+}
