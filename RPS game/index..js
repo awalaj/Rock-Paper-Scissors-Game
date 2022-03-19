@@ -1,32 +1,48 @@
-const btn = document.querySelectorAll("button");
+const listCharacterSRC = ["https://raw.githubusercontent.com/reiinakano/tfjs-rock-paper-scissors/master/images/scissors.png", "https://raw.githubusercontent.com/reiinakano/tfjs-rock-paper-scissors/master/images/rock.png", "https://raw.githubusercontent.com/reiinakano/tfjs-rock-paper-scissors/master/images/paper.png"];
 
-for(let i = 0; i < btn.length; i++){
-    document.getElementsByTagName("button")[i].addEventListener("click", function(event){
-        document.getElementById("loading").style.visibility = "visible";
-        setTimeout(() => {
-            document.getElementById("loading").style.visibility = "hidden";     
-            youCharacter(event);
-            (async function ChekWinner(){
-                computerCharacter();
-                const human = await document.getElementById("you").style.backgroundImage;
-                const computer = await document.getElementById("computer").style.backgroundImage;
-                if((human) == (computer)){
-                    document.getElementById("result").innerHTML = "<h5>&#128528;&nbsp; DRAW &nbsp;&#128528;</h5>"
-                }else if(((human == 'url("./image/paper.png")') && (computer == 'url("./image/rock.png")')) || ((human == 'url("./image/rock.png")') && (computer == 'url("./image/scissors.png")')) || ((human == 'url("./image/scissors.png")') && (computer == 'url("./image/paper.png")'))){
-                    document.getElementById("result").innerHTML = "<h5>&#128526;&nbsp; You WIN!!! &nbsp;&#128526;</h5>"
-                }else if(((human == 'url("./image/paper.png")') && (computer == 'url("./image/scissors.png")')) || ((human == 'url("./image/rock.png")') && (computer == 'url("./image/paper.png")')) || ((human ==  'url("./image/scissors.png")') && (computer == 'url("./image/rock.png")'))){
-                    document.getElementById("result").innerHTML = "<h5>&#129322;&nbsp; You LOSE!!! &nbsp;&#129322;</h5>"
-                }
-            })()
-        }, 1000);
-    })
+function getCharater(event){
+    const img = event.childNodes[1].childNodes[1].getAttribute("src")
+    document.getElementById("loading").style.visibility = "visible";
+    setTimeout(() => {
+        document.getElementById("loading").style.visibility = "hidden";     
+        youCharacter(img);
+        (async function ChekWinner(){
+            computerCharacter();
+            const human = await document.getElementById("you").style.backgroundImage;
+            const computer = await document.getElementById("computer").style.backgroundImage;
+            let youWin = "<h5>&#128526;&nbsp; YOU WIN!!! &nbsp;&#128526;</h5>";
+            let youLose = "<h5>&#129322;&nbsp; YOU LOSE!!! &nbsp;&#129322;</h5>";
+
+            if((human) == (computer)){
+                document.getElementById("result").innerHTML = "<h5>&#128528;&nbsp; DRAW &nbsp;&#128528;</h5>"; // draw
+            }// You character is Paper
+            else if((human == `url("${listCharacterSRC[2]}")`) && (computer == `url("${listCharacterSRC[1]}")`)){
+                document.getElementById("result").innerHTML = youWin;
+            }
+            else if((human == `url("${listCharacterSRC[2]}")`) && (computer == `url("${listCharacterSRC[0]}")`)){
+                document.getElementById("result").innerHTML = youLose;
+            }// You character is Rock
+            else if((human == `url("${listCharacterSRC[1]}")`) && (computer == `url("${listCharacterSRC[2]}")`)){
+                document.getElementById("result").innerHTML = youLose;
+            }
+            else if((human == `url("${listCharacterSRC[1]}")`) && (computer == `url("${listCharacterSRC[0]}")`)){
+                document.getElementById("result").innerHTML = youWin;
+            }// You character is Scissors
+            else if((human == `url("${listCharacterSRC[0]}")`) && (computer == `url("${listCharacterSRC[1]}")`)){
+                document.getElementById("result").innerHTML = youLose;
+            }
+            else if((human == `url("${listCharacterSRC[0]}")`) && (computer == `url("${listCharacterSRC[2]}")`)){
+                document.getElementById("result").innerHTML = youWin;
+            }
+        })()
+    }, 1000);
 }
 
-function youCharacter(event){
-    document.getElementById("you").style.background = `url(${event.target.getAttribute("src")})`;
+function youCharacter(img){
+    document.getElementById("you").style.background = `url(${img})`;
     document.getElementById("you").style.backgroundSize = "contain";
     document.getElementById("you").style.backgroundRepeat = "no-repeat";
-    if(event.target.getAttribute("src") == "./image/rock.png"){
+    if(img == "https://raw.githubusercontent.com/reiinakano/tfjs-rock-paper-scissors/master/images/rock.png"){
         document.getElementById("you").style.transform = "scaleX(-1)";
     }else{
         document.getElementById("you").style.transform = "scaleX(1)";
@@ -34,8 +50,7 @@ function youCharacter(event){
 }
 
 // random computerCharactear
-const listCharacterSRC = ['scissors', 'rock', 'paper'];
-var randomIndex = Math.floor(Math.random() * (2-0+1));//listCharacterSRC[Math.floor(Math.random() * listCharacterSRC.length)]//;
+var randomIndex = Math.floor(Math.random() * (2-0+1));
 
 function computerCharacter(){
     if(randomIndex == 2){
@@ -45,13 +60,13 @@ function computerCharacter(){
     }else if(randomIndex == 0){
         randomIndex = 1
     }
-    document.getElementById("computer").style.background = `url('./image/${listCharacterSRC[randomIndex]}.png')`;
+    document.getElementById("computer").style.background = `url(${listCharacterSRC[randomIndex]})`;
     document.getElementById("computer").style.backgroundSize = "contain";
     document.getElementById("computer").style.backgroundRepeat = "no-repeat";
-    if(listCharacterSRC[randomIndex] == "scissors" || "paper"){
+    if(listCharacterSRC[randomIndex] == listCharacterSRC[0] || listCharacterSRC[1]){
         document.getElementById("computer").style.transform = "scaleX(-1)";
     }
-    if(document.getElementById("computer").style.backgroundImage == 'url("./image/rock.png")'){
+    if(document.getElementById("computer").style.backgroundImage == 'url("https://raw.githubusercontent.com/reiinakano/tfjs-rock-paper-scissors/master/images/rock.png")'){
         document.getElementById("computer").style.transform = "scaleX(1)";
     }
 }
